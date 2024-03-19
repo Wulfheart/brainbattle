@@ -2,7 +2,6 @@
 
 namespace Domain\Round;
 
-
 use Domain\Question\AnswerId;
 use Domain\Question\Category;
 use Domain\Question\QuestionCollection;
@@ -14,15 +13,13 @@ final readonly class Round
         public RoundId $id,
         public Category $category,
         public QuestionCollection $questionCollection,
-    )
-    {
+    ) {
     }
 
     public static function start(
         Category $category,
         QuestionCollection $questionCollection
-    )
-    {
+    ) {
         return new self(
             RoundId::make(),
             $category,
@@ -45,6 +42,7 @@ final readonly class Round
     {
         $this->questionCollection->answerQuestionForInvitingPlayer($questionId, $answerId);
     }
+
     public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId): void
     {
         $this->questionCollection->answerQuestionForInvitedPlayer($questionId, $answerId);

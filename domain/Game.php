@@ -2,12 +2,9 @@
 
 namespace Domain;
 
-
-use Domain\Exception\PlayerIsNotInvitedPlayerException;
 use Domain\Exception\PlayerIsNotInvitingPlayerException;
 use Domain\Exception\PlayerIsNotMemberOfGameException;
 use Domain\Player\Player;
-use Domain\Player\PlayerId;
 use Domain\Player\PlayerTypeEnum;
 use Domain\Question\AnswerId;
 use Domain\Question\Category;
@@ -29,13 +26,12 @@ final class Game
     public array $events = [];
 
     public function __construct(
-        public GameId       $id,
-        public Player       $invitingPlayer,
-        public Player       $invitedPlayer,
-        public array        $rounds,
+        public GameId $id,
+        public Player $invitingPlayer,
+        public Player $invitedPlayer,
+        public array $rounds,
         public StateMachine $stateMachine,
-    )
-    {
+    ) {
     }
 
     public static function invite(Player $invitingPlayer, Player $invitedPlayer): self
@@ -88,10 +84,9 @@ final class Game
 
             $currentRound->answerQuestionForInvitedPlayer($questionId, $answerId);
 
-            if($currentRound->hasBeenFinishedByInvitedPlayer()) {
+            if ($currentRound->hasBeenFinishedByInvitedPlayer()) {
                 $this->stateMachine->transitionTo(InvitingPlayerChoosingCategoryState::class);
             }
-
 
         } else {
             if ($answeringPlayer->type !== PlayerTypeEnum::INVITING) {
@@ -107,8 +102,6 @@ final class Game
                 $this->stateMachine->transitionTo(InvitedPlayerChoosingCategoryState::class);
             }
         }
-
-
     }
 
     public function getLatestRound(): Round
@@ -129,6 +122,4 @@ final class Game
 
         throw new PlayerIsNotMemberOfGameException($player->id, $this->id);
     }
-
-
 }

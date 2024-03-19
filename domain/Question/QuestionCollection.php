@@ -7,14 +7,13 @@ final readonly class QuestionCollection
     public function __construct(
         /** @var array<Question> $questions */
         private array $questions,
-    )
-    {
+    ) {
     }
 
     public function hasBeenFinishedByInvitingPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if(!$question->hasBeenFinishedByInvitingPlayer()) {
+            if (! $question->hasBeenFinishedByInvitingPlayer()) {
                 return false;
             }
         }
@@ -25,7 +24,7 @@ final readonly class QuestionCollection
     public function hasBeenFinishedByInvitedPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if(!$question->hasBeenFinishedByInvitedPlayer()) {
+            if (! $question->hasBeenFinishedByInvitedPlayer()) {
                 return false;
             }
         }
@@ -36,9 +35,9 @@ final readonly class QuestionCollection
     public function answerQuestionForInvitingPlayer(QuestionId $questionId, AnswerId $answerId): void
     {
         foreach ($this->questions as $question) {
-            if(!$question->hasBeenFinishedByInvitingPlayer()) {
-                if(!$question->id->equals($questionId)) {
-                    throw new \InvalidArgumentException("Latest unanswered question is not the one being answered");
+            if (! $question->hasBeenFinishedByInvitingPlayer()) {
+                if (! $question->id->equals($questionId)) {
+                    throw new \InvalidArgumentException('Latest unanswered question is not the one being answered');
                 }
 
                 $question->answerForInvitingPlayer($answerId);
@@ -51,9 +50,9 @@ final readonly class QuestionCollection
     public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId)
     {
         foreach ($this->questions as $question) {
-            if(!$question->hasBeenFinishedByInvitedPlayer()) {
-                if(!$question->id->equals($questionId)) {
-                    throw new \InvalidArgumentException("Latest unanswered question is not the one being answered");
+            if (! $question->hasBeenFinishedByInvitedPlayer()) {
+                if (! $question->id->equals($questionId)) {
+                    throw new \InvalidArgumentException('Latest unanswered question is not the one being answered');
                 }
 
                 $question->answerForInvitedPlayer($answerId);

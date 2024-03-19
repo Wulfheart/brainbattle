@@ -3,14 +3,12 @@
 namespace Domain\State\Base;
 
 use Domain\State\InvitationSentState;
-use Faker\Provider\Base;
 
 final class StateMachine
 {
     public function __construct(
         private BaseGameState $state
-    )
-    {
+    ) {
     }
 
     public static function initialize(): self
@@ -19,7 +17,7 @@ final class StateMachine
     }
 
     /**
-     * @param class-string<BaseGameState> $state
+     * @param  class-string<BaseGameState>  $state
      */
     public function transitionTo(string $state): void
     {
@@ -34,8 +32,7 @@ final class StateMachine
     }
 
     /**
-     * @param class-string<BaseGameState> $state
-     * @return bool
+     * @param  class-string<BaseGameState>  $state
      */
     public function allowsTransitionTo(string $state): bool
     {
@@ -43,7 +40,7 @@ final class StateMachine
     }
 
     /**
-     * @param class-string<BaseGameState> $state
+     * @param  class-string<BaseGameState>  $state
      */
     public function hasCurrentState(string $state): bool
     {

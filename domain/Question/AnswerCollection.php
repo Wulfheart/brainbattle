@@ -7,8 +7,7 @@ final readonly class AnswerCollection
     public function __construct(
         /** @var array<Answer> $answers */
         private array $answers
-    )
-    {
+    ) {
     }
 
     /**
@@ -54,6 +53,7 @@ final readonly class AnswerCollection
         foreach ($this->answers as $answer) {
             if ($answer->id->equals($answerId)) {
                 $answer->isSelectedByInvitingPlayer = true;
+
                 return;
             }
         }
@@ -65,11 +65,10 @@ final readonly class AnswerCollection
         foreach ($this->answers as $answer) {
             if ($answer->id->equals($answerId)) {
                 $answer->isSelectedByInvitedPlayer = true;
+
                 return;
             }
         }
         throw new \InvalidArgumentException("Answer $answerId not found");
     }
-
-
 }

@@ -10,8 +10,7 @@ final readonly class Question
         public AnswerCollection $answerCollection,
         public ?QuestionTimeout $invitingPlayerTimeout = null,
         public ?QuestionTimeout $invitedPlayerTimeout = null,
-    )
-    {
+    ) {
     }
 
     public function hasBeenFinishedByInvitingPlayer(): bool

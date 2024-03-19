@@ -6,7 +6,6 @@ use Domain\State\Base\BaseGameState;
 
 final class InvitingPlayerAnsweringQuestionState extends BaseGameState
 {
-
     protected function allowsTransitionsTo(): array
     {
         return [

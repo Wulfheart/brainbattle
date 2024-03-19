@@ -10,7 +10,6 @@ final class Answer
         public bool $isCorrect,
         public bool $isSelectedByInvitingPlayer,
         public bool $isSelectedByInvitedPlayer
-    )
-    {
+    ) {
     }
 }

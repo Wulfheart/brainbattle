@@ -8,8 +8,7 @@ abstract readonly class UlidTrait
 {
     private function __construct(
         private readonly Ulid $ulid
-    )
-    {
+    ) {
 
     }
 
@@ -24,7 +23,7 @@ abstract readonly class UlidTrait
     }
 
     /**
-     * @param static $ulid
+     * @param  static  $ulid
      */
     public function equals(mixed $ulid): bool
     {
