@@ -56,6 +56,7 @@ final class Game
 
     public function chooseCategory(Player $choosingPlayer, Category $category, QuestionCollection $questionCollection): void
     {
+        //TODO: Also add timeouts for next question - maybe via a startNextQuestion method
         $this->checkIfPlayerIsMember($choosingPlayer);
         if ($this->stateMachine->hasCurrentState(InvitedPlayerChoosingCategoryState::class)) {
             if ($choosingPlayer->type !== PlayerTypeEnum::INVITED) {
@@ -76,6 +77,7 @@ final class Game
 
     public function answerQuestionForInvitedPlayer(Player $answeringPlayer, QuestionId $questionId, AnswerId $answerId): void
     {
+        //TODO: Also add timeouts for next question - maybe via a startNextQuestion method
         $this->checkIfPlayerIsMember($answeringPlayer);
 
         $currentRound = $this->getLatestRound();
