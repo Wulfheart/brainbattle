@@ -10,6 +10,6 @@ final class PlayerIsNotInvitedPlayerException extends Exception
         string $playerId,
         string $gameId
     ) {
-        parent::__construct("Player $playerId is not the InvitedPlayer in $gameId");
+        parent::__construct("Player $playerId is not the InvitedPlayer in game $gameId");
     }
 }
