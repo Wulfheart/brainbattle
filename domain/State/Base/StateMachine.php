@@ -18,14 +18,17 @@ final class StateMachine
         return new self(new InvitationSentState());
     }
 
-    public function transitionTo(BaseGameState $state): void
+    /**
+     * @param class-string<BaseGameState> $state
+     */
+    public function transitionTo(string $state): void
     {
-        if ($this->allowsTransitionTo($state::class)) {
-            $this->state = $state;
+        if ($this->allowsTransitionTo($state)) {
+            $this->state = new $state();
         } else {
             throw new InvalidStateTransitionException(
                 fromState: get_class($this->state),
-                toState: get_class($state)
+                toState: $state
             );
         }
     }

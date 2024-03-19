@@ -4,7 +4,7 @@ namespace Domain\Support;
 
 use Symfony\Component\Uid\Ulid;
 
-trait UlidTrait
+abstract readonly class UlidTrait
 {
     private function __construct(
         private readonly Ulid $ulid
@@ -15,7 +15,7 @@ trait UlidTrait
 
     public static function make(): self
     {
-        return new self(new Ulid());
+        return new static(new Ulid());
     }
 
     public function __toString(): string
@@ -23,13 +23,16 @@ trait UlidTrait
         return (string) $this->ulid;
     }
 
-    public function equals(self $ulid): bool
+    /**
+     * @param static $ulid
+     */
+    public function equals(mixed $ulid): bool
     {
         return $this->ulid->equals($ulid->ulid);
     }
 
     public static function fromString(string $ulid): self
     {
-        return new self(new Ulid($ulid));
+        return new static(new Ulid($ulid));
     }
 }

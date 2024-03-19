@@ -5,7 +5,6 @@ namespace Domain\ValueObjects;
 
 use Domain\Support\UlidTrait;
 
-final readonly class PlayerId
+final readonly class PlayerId extends UlidTrait
 {
-    use UlidTrait;
 }

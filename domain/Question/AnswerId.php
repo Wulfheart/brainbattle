@@ -5,7 +5,6 @@ namespace Domain\Question;
 
 use Domain\Support\UlidTrait;
 
-final class AnswerId
+final readonly class AnswerId extends UlidTrait
 {
-    use UlidTrait;
 }
