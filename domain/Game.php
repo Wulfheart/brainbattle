@@ -2,6 +2,9 @@
 
 namespace Domain;
 
+use Domain\Event\GameFinishedEvent;
+use Domain\Event\TurnFinishedEvent;
+use Domain\Exception\PlayerIsNotInvitedPlayerException;
 use Domain\Exception\PlayerIsNotInvitingPlayerException;
 use Domain\Exception\PlayerIsNotMemberOfGameException;
 use Domain\Player\Player;
@@ -23,7 +26,7 @@ final class Game
 {
     public const int MAX_ROUNDS = 6;
 
-    public array $events = [];
+    private array $events = [];
 
     public function __construct(
         public GameId $id,
@@ -71,35 +74,50 @@ final class Game
         $this->rounds[] = Round::start($category, $questionCollection);
     }
 
-    public function answerQuestion(Player $answeringPlayer, QuestionId $questionId, AnswerId $answerId): void
+    public function answerQuestionForInvitedPlayer(Player $answeringPlayer, QuestionId $questionId, AnswerId $answerId): void
     {
         $this->checkIfPlayerIsMember($answeringPlayer);
 
         $currentRound = $this->getLatestRound();
 
-        if ($this->stateMachine->hasCurrentState(InvitedPlayerAnsweringQuestionState::class)) {
-            if ($answeringPlayer->type !== PlayerTypeEnum::INVITED) {
-                throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
-            }
+        if ($answeringPlayer->type !== PlayerTypeEnum::INVITED) {
+            throw new PlayerIsNotInvitedPlayerException($answeringPlayer->id, $this->id);
+        }
 
-            $currentRound->answerQuestionForInvitedPlayer($questionId, $answerId);
+        $currentRound->answerQuestionForInvitedPlayer($questionId, $answerId);
 
-            if ($currentRound->hasBeenFinishedByInvitedPlayer()) {
-                $this->stateMachine->transitionTo(InvitingPlayerChoosingCategoryState::class);
-            }
-
-        } else {
-            if ($answeringPlayer->type !== PlayerTypeEnum::INVITING) {
-                throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
-            }
-
-            $currentRound->answerQuestionForInvitingPlayer($questionId, $answerId);
-
-            if (count($this->rounds) >= self::MAX_ROUNDS && $currentRound->hasBeenFinishedByInvitingPlayer()) {
-                $this->stateMachine->transitionTo(GameFinishedState::class);
-            }
+        if ($currentRound->hasBeenFinishedByInvitedPlayer()) {
             if ($currentRound->hasBeenFinishedByInvitingPlayer()) {
                 $this->stateMachine->transitionTo(InvitedPlayerChoosingCategoryState::class);
+            } else {
+                $this->stateMachine->transitionTo(InvitingPlayerAnsweringQuestionState::class);
+                $this->addEvent(new TurnFinishedEvent($this->id, $answeringPlayer->type));
+            }
+        }
+    }
+
+    public function answerQuestionForInvitingPlayer(Player $answeringPlayer, QuestionId $questionId, AnswerId $answerId): void
+    {
+        $this->checkIfPlayerIsMember($answeringPlayer);
+
+        $currentRound = $this->getLatestRound();
+
+        if ($answeringPlayer->type !== PlayerTypeEnum::INVITING) {
+            throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
+        }
+
+        $currentRound->answerQuestionForInvitingPlayer($questionId, $answerId);
+
+        if (count($this->rounds) >= self::MAX_ROUNDS && $currentRound->hasBeenFinishedByInvitingPlayer()) {
+            $this->stateMachine->transitionTo(GameFinishedState::class);
+            $this->addEvent(new GameFinishedEvent($this->id));
+        }
+        if ($currentRound->hasBeenFinishedByInvitingPlayer()) {
+            if ($currentRound->hasBeenFinishedByInvitedPlayer()) {
+                $this->stateMachine->transitionTo(InvitingPlayerChoosingCategoryState::class);
+            } else {
+                $this->stateMachine->transitionTo(InvitedPlayerAnsweringQuestionState::class);
+                $this->addEvent(new TurnFinishedEvent($this->id, $answeringPlayer->type));
             }
         }
     }
@@ -121,5 +139,20 @@ final class Game
         }
 
         throw new PlayerIsNotMemberOfGameException($player->id, $this->id);
+    }
+
+    public function getEvents(): array
+    {
+        return $this->events;
+    }
+
+    public function addEvent(object $event): void
+    {
+        $this->events[] = $event;
+    }
+
+    public function flushEvents(): void
+    {
+        $this->events = [];
     }
 }
