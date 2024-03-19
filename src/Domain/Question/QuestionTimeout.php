@@ -4,25 +4,16 @@ namespace Core\Domain\Question;
 
 use DateTimeImmutable;
 
-final class QuestionTimeout
+final readonly class QuestionTimeout
 {
     public function __construct(
         private readonly DateTimeImmutable $timeout,
-        private ?DateTimeImmutable $answerSubmittedAt = null
+        private readonly DateTimeImmutable $checkPerformedAt,
     ) {
     }
 
     public function hasTimedOut(): bool
     {
-        if ($this->answerSubmittedAt === null) {
-            return false;
-        }
-
-        return $this->answerSubmittedAt > $this->timeout;
-    }
-
-    public function submitAnswer(DateTimeImmutable $submittedAt): void
-    {
-        $this->answerSubmittedAt = $submittedAt;
+        return $this->checkPerformedAt > $this->timeout;
     }
 }
