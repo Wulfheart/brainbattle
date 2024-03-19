@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ValueObjects;
+namespace Domain\Player;
 
 
 use Domain\Support\UlidTrait;

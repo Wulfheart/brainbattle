@@ -4,7 +4,6 @@ namespace Domain\Round;
 
 use Domain\Support\UlidTrait;
 
-final class RoundId
+final readonly class RoundId extends UlidTrait
 {
-    use UlidTrait;
 }

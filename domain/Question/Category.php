@@ -2,7 +2,10 @@
 
 namespace Domain\Question;
 
-final class Category
+final readonly class Category
 {
-
+    public function __construct(
+        private CategoryId $id,
+    ) {
+    }
 }

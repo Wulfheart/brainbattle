@@ -2,7 +2,7 @@
 
 namespace Domain\Question;
 
-final readonly class Answer
+final class Answer
 {
     public function __construct(
         public AnswerId $id,

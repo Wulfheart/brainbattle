@@ -2,13 +2,49 @@
 
 namespace Domain\Question;
 
-final class QuestionCollection
+final readonly class QuestionCollection
 {
     public function __construct(
-        public Question $question1,
-        public Question $question2,
-        public Question $question3,
+        /** @var array<Question> $questions */
+        private array $questions,
     )
     {
+    }
+
+    public function hasBeenFinishedByInvitingPlayer(): bool
+    {
+        foreach ($this->questions as $question) {
+            if(!$question->hasBeenFinishedByInvitingPlayer()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function hasBeenFinishedByInvitedPlayer(): bool
+    {
+        foreach ($this->questions as $question) {
+            if(!$question->hasBeenFinishedByInvitedPlayer()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function answerQuestionForInvitingPlayer(QuestionId $questionId, AnswerId $answerId): void
+    {
+        foreach ($this->questions as $question) {
+            if(!$question->hasBeenFinishedByInvitingPlayer()) {
+                if(!$question->id->equals($questionId)) {
+                    throw new \InvalidArgumentException("Latest unanswered question is not the one being answered");
+                }
+
+                $question->answerForInvitingPlayer($answerId);
+            }
+        }
+
+        throw new \InvalidArgumentException("Question with id $questionId not found");
     }
 }

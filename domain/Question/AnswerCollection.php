@@ -27,5 +27,38 @@ final readonly class AnswerCollection
         return $shuffled;
     }
 
+    public function hasASelectedAnswerFromInvitingPlayer(): bool
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->isSelectedByInvitingPlayer) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasASelectedAnswerFromInvitedPlayer(): bool
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->isSelectedByInvitedPlayer) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function answerForInvitingPlayer(AnswerId $answerId)
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->id->equals($answerId)) {
+                $answer->isSelectedByInvitingPlayer = true;
+                return;
+            }
+        }
+        throw new \InvalidArgumentException("Answer $answerId not found");
+    }
+
 
 }

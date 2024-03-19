@@ -41,4 +41,12 @@ final class StateMachine
     {
         return $this->state->allowsTransitionTo($state);
     }
+
+    /**
+     * @param class-string<BaseGameState> $state
+     */
+    public function hasCurrentState(string $state): bool
+    {
+        return $this->state instanceof $state;
+    }
 }
