@@ -4,12 +4,13 @@ namespace Domain\State;
 
 use Domain\State\Base\BaseGameState;
 
-final class InvitingUserChoosingCategoryState extends Base\BaseGameState
+final class InvitedPlayerChoosingCategoryState extends BaseGameState
 {
+
     protected function allowsTransitionsTo(): array
     {
         return [
-          InvitingUserAnsweringQuestionState::class,
+            InvitedPlayerAnsweringQuestionState::class,
         ];
     }
 }

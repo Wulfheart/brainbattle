@@ -16,10 +16,10 @@ use Domain\Question\QuestionId;
 use Domain\Round\Round;
 use Domain\State\Base\StateMachine;
 use Domain\State\GameFinishedState;
-use Domain\State\InvitedUserAnsweringQuestionState;
-use Domain\State\InvitedUserChoosingCategoryState;
-use Domain\State\InvitingUserAnsweringQuestionState;
-use Domain\State\InvitingUserChoosingCategoryState;
+use Domain\State\InvitedPlayerAnsweringQuestionState;
+use Domain\State\InvitedPlayerChoosingCategoryState;
+use Domain\State\InvitingPlayerAnsweringQuestionState;
+use Domain\State\InvitingPlayerChoosingCategoryState;
 use Domain\ValueObjects\GameId;
 
 final class Game
@@ -52,24 +52,24 @@ final class Game
     public function acceptInvitation(Player $acceptingPlayer): void
     {
         $this->checkIfPlayerIsMember($acceptingPlayer);
-        $this->stateMachine->transitionTo(InvitedUserChoosingCategoryState::class);
+        $this->stateMachine->transitionTo(InvitedPlayerChoosingCategoryState::class);
     }
 
     public function chooseCategory(Player $choosingPlayer, Category $category, QuestionCollection $questionCollection): void
     {
         $this->checkIfPlayerIsMember($choosingPlayer);
-        if ($this->stateMachine->hasCurrentState(InvitedUserChoosingCategoryState::class)) {
+        if ($this->stateMachine->hasCurrentState(InvitedPlayerChoosingCategoryState::class)) {
             if ($choosingPlayer->type !== PlayerTypeEnum::INVITED) {
                 throw new PlayerIsNotInvitingPlayerException($choosingPlayer->id, $this->id);
             }
 
-            $this->stateMachine->transitionTo(InvitedUserAnsweringQuestionState::class);
+            $this->stateMachine->transitionTo(InvitedPlayerAnsweringQuestionState::class);
         } else {
             if ($this->invitingPlayer->type !== PlayerTypeEnum::INVITING) {
                 throw new PlayerIsNotInvitingPlayerException($choosingPlayer->id, $this->id);
             }
 
-            $this->stateMachine->transitionTo(InvitingUserAnsweringQuestionState::class);
+            $this->stateMachine->transitionTo(InvitingPlayerAnsweringQuestionState::class);
         }
 
         $this->rounds[] = Round::start($category, $questionCollection);
@@ -81,15 +81,15 @@ final class Game
 
         $currentRound = $this->getLatestRound();
 
-        if ($this->stateMachine->hasCurrentState(InvitedUserAnsweringQuestionState::class)) {
+        if ($this->stateMachine->hasCurrentState(InvitedPlayerAnsweringQuestionState::class)) {
             if ($answeringPlayer->type !== PlayerTypeEnum::INVITED) {
                 throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
             }
 
-
+            $currentRound->answerQuestionForInvitedPlayer($questionId, $answerId);
 
             if($currentRound->hasBeenFinishedByInvitedPlayer()) {
-                $this->stateMachine->transitionTo(InvitingUserChoosingCategoryState::class);
+                $this->stateMachine->transitionTo(InvitingPlayerChoosingCategoryState::class);
             }
 
 
@@ -104,7 +104,7 @@ final class Game
                 $this->stateMachine->transitionTo(GameFinishedState::class);
             }
             if ($currentRound->hasBeenFinishedByInvitingPlayer()) {
-                $this->stateMachine->transitionTo(InvitedUserChoosingCategoryState::class);
+                $this->stateMachine->transitionTo(InvitedPlayerChoosingCategoryState::class);
             }
         }
 
