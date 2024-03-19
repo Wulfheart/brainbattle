@@ -5,7 +5,10 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Tests\TestCase;
+
+#[CoversNothing]
 
 class PasswordConfirmationTest extends TestCase
 {

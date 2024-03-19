@@ -10,8 +10,7 @@ final class TurnFinishedEvent
     public function __construct(
         public GameId $gameId,
         public PlayerTypeEnum $playerType,
-    )
-    {
+    ) {
 
     }
 }

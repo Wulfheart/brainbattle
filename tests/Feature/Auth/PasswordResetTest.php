@@ -7,7 +7,10 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Volt\Volt;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Tests\TestCase;
+
+#[CoversNothing]
 
 class PasswordResetTest extends TestCase
 {

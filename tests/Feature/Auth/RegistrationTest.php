@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Tests\TestCase;
 
+#[CoversNothing]
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;

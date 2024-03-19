@@ -6,7 +6,10 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Volt\Volt;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Tests\TestCase;
+
+#[CoversNothing]
 
 class PasswordUpdateTest extends TestCase
 {
