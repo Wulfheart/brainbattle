@@ -86,7 +86,7 @@ final class Game
                 throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
             }
 
-            $currentRound->answerQuestion($questionId, $answerId);
+
 
             if($currentRound->hasBeenFinishedByInvitedPlayer()) {
                 $this->stateMachine->transitionTo(InvitingUserChoosingCategoryState::class);
@@ -97,6 +97,8 @@ final class Game
             if ($answeringPlayer->type !== PlayerTypeEnum::INVITING) {
                 throw new PlayerIsNotInvitingPlayerException($answeringPlayer->id, $this->id);
             }
+
+            $currentRound->answerQuestionForInvitingPlayer($questionId, $answerId);
 
             if (count($this->rounds) >= self::MAX_ROUNDS && $currentRound->hasBeenFinishedByInvitingPlayer()) {
                 $this->stateMachine->transitionTo(GameFinishedState::class);

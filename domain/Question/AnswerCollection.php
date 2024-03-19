@@ -49,11 +49,22 @@ final readonly class AnswerCollection
         return false;
     }
 
-    public function answerForInvitingPlayer(AnswerId $answerId)
+    public function answerForInvitingPlayer(AnswerId $answerId): void
     {
         foreach ($this->answers as $answer) {
             if ($answer->id->equals($answerId)) {
                 $answer->isSelectedByInvitingPlayer = true;
+                return;
+            }
+        }
+        throw new \InvalidArgumentException("Answer $answerId not found");
+    }
+
+    public function answerForInvitedPlayer(AnswerId $answerId): void
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->id->equals($answerId)) {
+                $answer->isSelectedByInvitedPlayer = true;
                 return;
             }
         }

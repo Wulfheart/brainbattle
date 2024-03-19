@@ -28,4 +28,9 @@ final readonly class Question
     {
         $this->answerCollection->answerForInvitingPlayer($answerId);
     }
+
+    public function answerForInvitedPlayer(AnswerId $answerId): void
+    {
+        $this->answerCollection->answerForInvitedPlayer($answerId);
+    }
 }

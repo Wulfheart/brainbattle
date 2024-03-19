@@ -47,4 +47,19 @@ final readonly class QuestionCollection
 
         throw new \InvalidArgumentException("Question with id $questionId not found");
     }
+
+    public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId)
+    {
+        foreach ($this->questions as $question) {
+            if(!$question->hasBeenFinishedByInvitedPlayer()) {
+                if(!$question->id->equals($questionId)) {
+                    throw new \InvalidArgumentException("Latest unanswered question is not the one being answered");
+                }
+
+                $question->answerForInvitedPlayer($answerId);
+            }
+        }
+
+        throw new \InvalidArgumentException("Question with id $questionId not found");
+    }
 }

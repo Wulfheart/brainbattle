@@ -45,4 +45,8 @@ final readonly class Round
     {
         $this->questionCollection->answerQuestionForInvitingPlayer($questionId, $answerId);
     }
+    public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId): void
+    {
+        $this->questionCollection->answerQuestionForInvitedPlayer($questionId, $answerId);
+    }
 }
