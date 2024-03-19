@@ -26,6 +26,16 @@ final readonly class AnswerCollection
         return $shuffled;
     }
 
+    public function getAnswerById(AnswerId $answerId): Answer
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->id->equals($answerId)) {
+                return $answer;
+            }
+        }
+        throw new \InvalidArgumentException("Answer $answerId not found");
+    }
+
     public function hasASelectedAnswerFromInvitingPlayer(): bool
     {
         foreach ($this->answers as $answer) {
@@ -50,25 +60,12 @@ final readonly class AnswerCollection
 
     public function answerForInvitingPlayer(AnswerId $answerId): void
     {
-        foreach ($this->answers as $answer) {
-            if ($answer->id->equals($answerId)) {
-                $answer->isSelectedByInvitingPlayer = true;
-
-                return;
-            }
-        }
-        throw new \InvalidArgumentException("Answer $answerId not found");
+        $this->getAnswerById($answerId)->isSelectedByInvitingPlayer = true;
     }
 
     public function answerForInvitedPlayer(AnswerId $answerId): void
     {
-        foreach ($this->answers as $answer) {
-            if ($answer->id->equals($answerId)) {
-                $answer->isSelectedByInvitedPlayer = true;
+        $this->getAnswerById($answerId)->isSelectedByInvitedPlayer = true;
 
-                return;
-            }
-        }
-        throw new \InvalidArgumentException("Answer $answerId not found");
     }
 }
