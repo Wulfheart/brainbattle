@@ -30,7 +30,7 @@ final readonly class Question
      */
     public function answerForInvitingPlayer(AnswerId $answerId): void
     {
-        if($this->hasBeenFinishedByInvitingPlayer()) {
+        if ($this->hasBeenFinishedByInvitingPlayer()) {
             throw QuestionAlreadyAnsweredException::invitingPlayer();
         }
         $this->answerCollection->answerForInvitingPlayer($answerId);
@@ -41,7 +41,7 @@ final readonly class Question
      */
     public function answerForInvitedPlayer(AnswerId $answerId): void
     {
-        if($this->hasBeenFinishedByInvitedPlayer()) {
+        if ($this->hasBeenFinishedByInvitedPlayer()) {
             throw QuestionAlreadyAnsweredException::invitedPlayer();
         }
         $this->answerCollection->answerForInvitedPlayer($answerId);

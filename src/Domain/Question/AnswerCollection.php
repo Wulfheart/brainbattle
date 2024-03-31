@@ -66,6 +66,10 @@ final readonly class AnswerCollection
     public function answerForInvitedPlayer(AnswerId $answerId): void
     {
         $this->getAnswerById($answerId)->isSelectedByInvitedPlayer = true;
+    }
 
+    public function first(): Answer
+    {
+        return $this->answers[0];
     }
 }
