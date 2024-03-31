@@ -2,6 +2,10 @@
 
 namespace Core\Domain\Question;
 
+use Core\Domain\Exception\QuestionAlreadyAnsweredException;
+use Core\Domain\Exception\QuestionNotFoundException;
+use Core\Domain\Exception\TryingToAnswerQuestionThatIsNotTheLatestException;
+
 final readonly class QuestionCollection
 {
     public function __construct(
@@ -13,52 +17,69 @@ final readonly class QuestionCollection
     public function hasBeenFinishedByInvitingPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if (! $question->hasBeenFinishedByInvitingPlayer()) {
-                return false;
+            if ($question->hasBeenFinishedByInvitingPlayer()) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     public function hasBeenFinishedByInvitedPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if (! $question->hasBeenFinishedByInvitedPlayer()) {
-                return false;
+            if ($question->hasBeenFinishedByInvitedPlayer()) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
+    /**
+     * @throws QuestionNotFoundException
+     * @throws TryingToAnswerQuestionThatIsNotTheLatestException
+     * @throws QuestionAlreadyAnsweredException
+     */
     public function answerQuestionForInvitingPlayer(QuestionId $questionId, AnswerId $answerId): void
     {
         foreach ($this->questions as $question) {
             if (! $question->hasBeenFinishedByInvitingPlayer()) {
                 if (! $question->id->equals($questionId)) {
-                    throw new \InvalidArgumentException('Latest unanswered question is not the one being answered');
+                    throw TryingToAnswerQuestionThatIsNotTheLatestException::forInvitingPlayer();
                 }
 
                 $question->answerForInvitingPlayer($answerId);
+                return;
             }
         }
 
-        throw new \InvalidArgumentException("Question with id $questionId not found");
+        // @codeCoverageIgnoreStart
+        // Should be unreachable
+        throw QuestionNotFoundException::withId($questionId);
+        // @codeCoverageIgnoreEnd
     }
 
-    public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId)
+    /**
+     * @throws QuestionNotFoundException
+     * @throws QuestionAlreadyAnsweredException
+     * @throws TryingToAnswerQuestionThatIsNotTheLatestException
+     */
+    public function answerQuestionForInvitedPlayer(QuestionId $questionId, AnswerId $answerId): void
     {
         foreach ($this->questions as $question) {
             if (! $question->hasBeenFinishedByInvitedPlayer()) {
                 if (! $question->id->equals($questionId)) {
-                    throw new \InvalidArgumentException('Latest unanswered question is not the one being answered');
+                    throw TryingToAnswerQuestionThatIsNotTheLatestException::forInvitedPlayer();
                 }
 
                 $question->answerForInvitedPlayer($answerId);
+                return;
             }
         }
-
-        throw new \InvalidArgumentException("Question with id $questionId not found");
+        // @codeCoverageIgnoreStart
+        // Should be unreachable
+        throw QuestionNotFoundException::withId($questionId);
+        // @codeCoverageIgnoreEnd
     }
 }
