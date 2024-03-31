@@ -2,6 +2,8 @@
 
 namespace Core\Domain\Question;
 
+use Core\Domain\Exception\QuestionAlreadyAnsweredException;
+
 final readonly class Question
 {
     public function __construct(
@@ -15,21 +17,33 @@ final readonly class Question
 
     public function hasBeenFinishedByInvitingPlayer(): bool
     {
-        return $this->invitingPlayerTimeout->hasTimedOut() || $this->answerCollection->hasASelectedAnswerFromInvitingPlayer();
+        return $this->invitingPlayerTimeout?->hasTimedOut() || $this->answerCollection->hasASelectedAnswerFromInvitingPlayer();
     }
 
     public function hasBeenFinishedByInvitedPlayer(): bool
     {
-        return $this->invitedPlayerTimeout->hasTimedOut() || $this->answerCollection->hasASelectedAnswerFromInvitedPlayer();
+        return $this->invitedPlayerTimeout?->hasTimedOut() || $this->answerCollection->hasASelectedAnswerFromInvitedPlayer();
     }
 
+    /**
+     * @throws QuestionAlreadyAnsweredException
+     */
     public function answerForInvitingPlayer(AnswerId $answerId): void
     {
+        if($this->hasBeenFinishedByInvitingPlayer()) {
+            throw QuestionAlreadyAnsweredException::invitingPlayer();
+        }
         $this->answerCollection->answerForInvitingPlayer($answerId);
     }
 
+    /**
+     * @throws QuestionAlreadyAnsweredException
+     */
     public function answerForInvitedPlayer(AnswerId $answerId): void
     {
+        if($this->hasBeenFinishedByInvitedPlayer()) {
+            throw QuestionAlreadyAnsweredException::invitedPlayer();
+        }
         $this->answerCollection->answerForInvitedPlayer($answerId);
     }
 }
