@@ -14,12 +14,12 @@ use Core\Domain\Question\Category;
 use Core\Domain\Question\QuestionCollection;
 use Core\Domain\Question\QuestionId;
 use Core\Domain\Round\Round;
-use Core\Domain\State\Base\StateMachine;
-use Core\Domain\State\GameFinishedState;
-use Core\Domain\State\InvitedPlayerAnsweringQuestionState;
-use Core\Domain\State\InvitedPlayerChoosingCategoryState;
-use Core\Domain\State\InvitingPlayerAnsweringQuestionState;
-use Core\Domain\State\InvitingPlayerChoosingCategoryState;
+use Core\Domain\State\StateMachine;
+use Core\Domain\State\States\GameFinishedState;
+use Core\Domain\State\States\InvitedPlayerAnsweringQuestionState;
+use Core\Domain\State\States\InvitedPlayerChoosingCategoryState;
+use Core\Domain\State\States\InvitingPlayerAnsweringQuestionState;
+use Core\Domain\State\States\InvitingPlayerChoosingCategoryState;
 use Core\Domain\ValueObjects\GameId;
 
 final class Game

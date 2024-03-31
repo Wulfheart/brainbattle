@@ -18,6 +18,11 @@
             <directory>app</directory>
             <directory>src</directory>
         </include>
+        <exclude>
+            <directory>
+                src/Domain/State/States
+            </directory>
+        </exclude>
     </source>
     <coverage>
         <report>

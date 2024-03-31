@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Domain\State;
+namespace Core\Domain\State\States;
 
-use Core\Domain\State\Base\BaseGameState;
+use Core\Domain\State\BaseGameState;
 
 final class InvitingPlayerChoosingCategoryState extends BaseGameState
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Domain\State\Base;
+namespace Core\Domain\State;
 
-use Core\Domain\State\InvitationSentState;
+use Core\Domain\State\States\InvitationSentState;
 
 final class StateMachine
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Domain\State\Base;
+namespace Core\Domain\State;
 
 abstract class BaseGameState
 {
