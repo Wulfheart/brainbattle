@@ -18,8 +18,8 @@ class QuestionCollectionTest extends TestCase
     public function test_hasBeenFinishedByInvitingPlayer_returns_true()
     {
         $questionCollection = new QuestionCollection([
-            $this->createQuestion(false, false),
-            $this->createQuestion(false, false),
+            $this->createQuestion(true, false),
+            $this->createQuestion(true, false),
             $this->createQuestion(true, false),
         ]);
 
@@ -29,7 +29,7 @@ class QuestionCollectionTest extends TestCase
     public function test_hasBeenFinishedByInvitingPlayer_returns_false()
     {
         $questionCollection = new QuestionCollection([
-            $this->createQuestion(false, false),
+            $this->createQuestion(true, false),
             $this->createQuestion(false, false),
             $this->createQuestion(false, false),
         ]);
@@ -40,8 +40,8 @@ class QuestionCollectionTest extends TestCase
     public function test_hasBeenFinishedByInvitedPlayer_returns_true()
     {
         $questionCollection = new QuestionCollection([
-            $this->createQuestion(false, false),
-            $this->createQuestion(false, false),
+            $this->createQuestion(false, true),
+            $this->createQuestion(false, true),
             $this->createQuestion(false, true),
         ]);
 
@@ -51,7 +51,7 @@ class QuestionCollectionTest extends TestCase
     public function test_hasBeenFinishedByInvitedPlayer_returns_false()
     {
         $questionCollection = new QuestionCollection([
-            $this->createQuestion(false, false),
+            $this->createQuestion(true, true),
             $this->createQuestion(false, false),
             $this->createQuestion(false, false),
         ]);

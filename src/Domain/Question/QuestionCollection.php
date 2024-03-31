@@ -17,23 +17,23 @@ final readonly class QuestionCollection
     public function hasBeenFinishedByInvitingPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if ($question->hasBeenFinishedByInvitingPlayer()) {
-                return true;
+            if (!$question->hasBeenFinishedByInvitingPlayer()) {
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     public function hasBeenFinishedByInvitedPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if ($question->hasBeenFinishedByInvitedPlayer()) {
-                return true;
+            if (!$question->hasBeenFinishedByInvitedPlayer()) {
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
