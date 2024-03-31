@@ -127,6 +127,7 @@ class QuestionTest extends TestCase
 
         $this->assertTrue($answer->isSelectedByInvitingPlayer);
     }
+
     public function test_answerForInvitedPlayer_throws_exception_if_it_has_already_been_answered(): void
     {
         $question = new Question(

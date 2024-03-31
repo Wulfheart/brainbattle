@@ -5,6 +5,7 @@ namespace Core\Domain\Exception;
 final class TryingToAnswerQuestionThatIsNotTheLatestException extends \Exception
 {
     public const int REASON_INVITING_PLAYER = 1;
+
     public const int REASON_INVITED_PLAYER = 2;
 
     public static function forInvitingPlayer(): self

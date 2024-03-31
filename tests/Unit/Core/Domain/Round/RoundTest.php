@@ -108,6 +108,7 @@ class RoundTest extends TestCase
 
         $this->assertTrue($question->hasBeenFinishedByInvitingPlayer());
     }
+
     public function test_answerQuestionForInvitedPlayer_can_be_done(): void
     {
         $question = $this->createQuestion(false, false);

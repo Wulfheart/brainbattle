@@ -90,6 +90,7 @@ class QuestionCollectionTest extends TestCase
 
         $this->assertTrue($question->hasBeenFinishedByInvitingPlayer());
     }
+
     public function test_answerQuestionForInvitedPlayer_throws_exception_if_trying_to_answer_question_that_is_not_the_latest(): void
     {
         $questionId = QuestionId::make();

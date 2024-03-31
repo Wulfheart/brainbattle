@@ -17,7 +17,7 @@ final readonly class QuestionCollection
     public function hasBeenFinishedByInvitingPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if (!$question->hasBeenFinishedByInvitingPlayer()) {
+            if (! $question->hasBeenFinishedByInvitingPlayer()) {
                 return false;
             }
         }
@@ -28,7 +28,7 @@ final readonly class QuestionCollection
     public function hasBeenFinishedByInvitedPlayer(): bool
     {
         foreach ($this->questions as $question) {
-            if (!$question->hasBeenFinishedByInvitedPlayer()) {
+            if (! $question->hasBeenFinishedByInvitedPlayer()) {
                 return false;
             }
         }
@@ -50,6 +50,7 @@ final readonly class QuestionCollection
                 }
 
                 $question->answerForInvitingPlayer($answerId);
+
                 return;
             }
         }
@@ -74,6 +75,7 @@ final readonly class QuestionCollection
                 }
 
                 $question->answerForInvitedPlayer($answerId);
+
                 return;
             }
         }

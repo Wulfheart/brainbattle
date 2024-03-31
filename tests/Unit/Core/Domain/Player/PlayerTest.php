@@ -33,6 +33,4 @@ class PlayerTest extends TestCase
         $otherPlayer = new Player($playerId, 'GAME_ID', PlayerTypeEnum::INVITING);
         $this->assertFalse($player->equals($otherPlayer));
     }
-
-
 }
